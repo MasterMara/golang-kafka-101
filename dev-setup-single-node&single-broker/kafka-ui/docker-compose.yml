@@ -7,7 +7,5 @@ services:
       - "8080:8080"
     restart: always
     environment:
-      - KAFKA_CLUSTERS_0_NAME=mustafa_single_broker
-      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=PLAINTEXT://127.0.0.1:9092
-
-#docker-compose up -d kafka-ui
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
