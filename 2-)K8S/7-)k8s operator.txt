@@ -1,0 +1,9 @@
+k8s operator
+********************************************************************************************************************************
+
+--> operator used for Statefull applicaitons
+--> Aslında k8s operator şu demek k8s'in kendi insanların yaptığı operasyonları otomatize etmek için ortaya çıkmıştır.
+--> Tasks are automated and reusable via operators
+--> operator ile beraber CRD yani Custom Resource Definition create edebiliyoruz aynı deplyomeny, service objesi gibi create edebiliyoruz.
+--> Operator takes the basic k8s resources 
+--> Communit create ediyor bu operatoru prometheus-operator / elastic-operator gibi söyleyebiliriz.

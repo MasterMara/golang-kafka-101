@@ -1,0 +1,76 @@
+K8S Services:
+**************************************************************************************************************************** 
+--> kubectl get pod -o wide --> Podun ip addresini görebiliriz.
+
+
+****************************************************************************************************************************
+--> Each Pod has own ip address. 
+--> Her pod yeniden restart edildiği zaman podun internal ip adresi değişiyor.
+--> Podlar ip addreslerini worker nodun alacağı aralıktan alırlar.
+
+****************************************************************************************************************************
+Services:
+
+--> Stable IP Addresses
+--> Services has load balancing.
+--> istek şöyle ilerleyecek. browser requesti ingress karşılacayak daha sonra o ilgili isteği internal service yani
+cluster ip ye yönlendirecek. cluster ip servisin de bir portu var o da isteği ilgili deployment objesinin oluşturduğu
+podlara yönlendirecektir.
+--> Service create ettiğin zaman k8s Endoint diye bir obje create ediyor.
+    --> keep track of, which pods are the members/endpoints of the Service. This is dynamic.
+--> Service port is arbitary  
+--> targetPort must match the port, the container listetting. Podun içinde dinlene container ile aynı olmalıdır.
+--> When you define multiple port define in service you have give a name services.
+--> Configure Ingress or LoadBalancer for production use Case.
+
+Which pods to forward the request to ?
+
+--> Selector. pods are identified via selectors.
+    --> Poda template:                          Service:
+                                                  spec:
+              metadata:                             selector:
+                                                      app:microservice-one
+                labels:
+                 app: microservice-one
+
+Eğer Podda 2 tane container varsa service hangisine yönelndireceğini nasıl biliyor ?
+
+--> targetPort: attribute ile service bunu biliyor ve anlıyor podun içindeki hangi containera ilgili isteği yönlendireceğini.
+
+
+****************************************************************************************************************************
+Cluster IP Type:
+
+--> Default service type.
+--> internal service
+--> Cluster Ip only accesiable inside cluster.
+****************************************************************************************************************************
+Headlerss Service Type:
+
+--> Clients wants to communicate with 1 specific Pod directly
+--> Pods want to talk directly  with specific pod 
+--> so, not randomly selected pod by Services
+--> Use Case: Statefull applicaitons, like databases
+--> pods are not identical. each has state.
+--> CockroachDB araştır.
+--> Set ClusterIp:None and return POD IP addresses instead.(DNS Lookup.)
+--> Headless Services oluşturmak için aslında service objesini clusterIp:None olarak işaretleriyoruz.
+****************************************************************************************************************************
+NodePort Type:
+
+--> Create a service accesibla on a static port on each worker node in the cluster
+--> Makes the external trafic accesiable on static or fixed port on each workernode.
+--> bu case de ingress yerine browser can requjest  directly to worker node at that port service spec.
+--> nodePort attribute ile belirlenmekte.
+--> NodePort Range: 30000 - 3276
+--> dışarıdan trafik alabiliyor.Worker Node'un ip addresi ile beraber .
+--> Cluster ip services create auto
+---> NodePort services are not secure.
+--> nodeport type is a extension of clusterIp type
+****************************************************************************************************************************
+LoadBalancer Service type:
+
+
+--> NodePort ve ClusterIp address servicslerini otomatik oluşturur.
+--> Cloud providerların kendi tipleri direk loadbalancer servisine ulaşıyor olacak bu senaryoda.
+--> Loadbalancer is extension of nodeport type

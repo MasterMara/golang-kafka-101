@@ -1,0 +1,47 @@
+K8S Volume
+
+*****************************************************************************************************************************************
+
+--> K8S State tutmaz normal podda recreate ettiğin zaman bütün data gider.
+
+*****************************************************************************************************************************************
+Storage Requeirements:
+
+--> For Example: database is storage.
+--> Diğer bir use case de writes/reads file from directory.
+--> storage does not depend on the pod lifecycle.
+--> Storage must be available on all nodes.
+--> Storage needs to survivce even the cluster crashed.
+*****************************************************************************************************************************************
+Persistent Volume:
+
+--> Ram ve Cpu gibi bir cluster resourcedur. Yani önceden create edilmelidir. Tıpkı clusterın create edilmesi gibi.
+--> Persisten volume da yaml file ile create edilir.
+--> Bu da sadece bir abstractiondır. Needs actual physical storage like:
+    --> Locak hard drive of cluster nodes.
+    --> nfs server outside the cluster.
+    --> maybe cloud storage.
+--> Persisten volume tamamen bir external plugindir. Clustera.
+--> Persistent Volume are not namespaced. They can accesibale from all cluster.
+--> For Db Persistence you should always use remote storage.
+--> There are Types, Local(Clusterın içinde bulunan.) vs Remote  Volume Types:
+--> 1 podda aynı anda config map, secrets, or actual database stroage gibi aynı anda birden çok storage kullanabiliriz.
+*****************************************************************************************************************************************
+Persistent Volume Claim:
+
+--> Pvc claims a volume vith certain storage size 
+--> Persistence Volume Claimi podda kullanmak için onu da podda configure etmemiz gerekecektir.
+--> pod access storage by using claim volume and then claim will go and try to find volume satisfied persistent volume in the cluster
+and then volume has a actual storage backend bu şekilde pod gerçek storagea erişebiliyor.
+--> pod ile Claim aynı namespace'de bulunmak zorunda.
+*****************************************************************************************************************************************
+ConfigMap ve Secretlar:
+
+-->  bunlar k8s için local clusterdır.
+--> bunlar persistent volume veya persistent volume claim ile create edilmezler.
+--> managed by k8s
+*****************************************************************************************************************************************
+Storage Class:
+
+--> Storage Class Persistent volumes are created dynamically according to persistent volume claim
+--> Gene Persistent Volume gibi Storage Classta pod tarafından Persistent Volume Claim ile istenmeli.

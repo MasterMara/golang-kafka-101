@@ -1,0 +1,41 @@
+K8S Networking
+
+****************************************************************************************************************************************
+ Commands:
+
+ --> kubectl exec -it <pod> -c <container> -- /bin/sh  --> container içine giriyorum
+ --> kubectl logs <pod> -c <containerName> --> get the pod logs
+ --> echo $(minikube docker-env) --> local makineden minikube içindeki dockera bağlanıyorsun
+  --> eval $(minikube docker-env) --> local makineden minikube içindeki dockera bağlanıyorsun
+
+--> netstat --ln 
+****************************************************************************************************************************************
+ --> Pod is a abstracion over container,
+
+ --> Every pod has a unique ip address.
+    --> IP address all reachable in the cluster.
+
+****************************************************************************************************************************************
+Pod Abstraction:
+
+--> Pod is a host just like your laptop both have ip address and range of pods.
+--> Eğer container direk host cluster ile etkileşime girseydi port olarak 100lerce container bir arada olduğu zaman port karmaşası olacak ve 
+yönetimi çok zor olacaktı. Ama POD bir makine olduğu için ve kendi içinde kendi networku olduğu için inside olarak conatiner içinde tüm appler
+bir podun içerisinde aynı porttan dışarı çıkabilecekti. O yüzden pod abstracion çok iyi düşünülmüş
+
+****************************************************************************************************************************************
+Multiple containers in POD 
+****************************************************************************************************************************************
+How to Containers communicate insid pod 
+
+--> Pod isolated virtual host with its own network namespace.
+--> containers can talk via localhost and port
+--> Eğer podun içindeki container ölüp yerine yeni container gelirse hep pause container sayesinde aynı ip addresste creaate olur
+--> Eğer pod ölür yeniden create olursa pod ip addresi yenisi create olur 
+****************************************************************************************************************************************
+Pause Container:
+- Pause container each pod
+- also called sanbox container 
+- reserves and holds network namespace 
+- enables communication between containers
+****************************************************************************************************************************************

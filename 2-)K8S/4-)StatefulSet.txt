@@ -1,0 +1,26 @@
+Stateful Set
+
+***********************************************************************************************************************************
+What is the sateful Set:
+
+-->  example of Stateful applicaitons are:
+    --> all database, are statefull applicaiton.
+
+--> Stateless applicaiton will deployed via deploymeny object
+--> Statfull applicaiton will deployed deployed using StatefulSet object.
+
+
+
+Deployment vs Statefull Set:
+
+--> Replicating statefull applicaiton is more difficult
+
+
+Deployment Object replicating:
+--> identical and intechangeble 
+--> created in random order with random hashes
+--> one Service that load balances to any pod.
+--> aynı anda işlem yapılabilir.
+
+Stateful Set replicating:
+--> 

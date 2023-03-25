@@ -1,0 +1,58 @@
+K8S Security Tools
+
+********************************************************************************************************************************
+Security Advices:
+
+--> Security should be redundant
+    --> Network, Host, Runtime 
+
+
+
+1-) k8s Security starts with building secure images. Build Secure image.
+    --> Code from untrusted registtiries.
+    -->  Vulnabilarities in tools of OS of libraries
+    --> Eliminate Unnecesary packages or dependencies.
+    --> Solution: Do Image Scanning, Scan image before pushing to registry. In your CI/CD Pipelines.
+
+2-) Run container as non-root
+    --> Build image with dedicated service user.
+
+3-) Manage Users and Permissions.
+    --> Keep privileges as restrictive as possible.
+    --> Give read-only permissions to my-app namespace only.
+    --> Bunun için Role Bassed Access Control yapacağız.
+    --> Cluster Role tanımlayacağız.
+    --> Use Roll based access to whole structure.
+
+4-) Define Communicaiton Rules between pods.
+    --> Limit the Communicaiton
+    --> with Network tools.
+    --> Create Network Policies. For example Front-end Service only can talk backend service.
+    --> Network policies are implemented by the Network plugin.
+    --> service seviyesinde bu ayarı yapmak için Solution:Service mash with sidecar Pattern
+    --> Use Network policies or ServiceMesh to define strict rules between pods. Service MESH ARAŞTIR.
+
+5-) Encrypt commuications between pods.
+    --> ServiceMeshin Enable mTLS between pods.
+    --> Encrypt cluster interanl commuications.
+
+6-) Secure Secret data
+    --> Stored unencrypted, only base64 encoded.
+    --> Eğer Secret kodunu biri görürse base64 göre decode edip datayı görebilir.
+    --> Solution1: Use K8S own solution
+    --> Solution2: use 3rd party tools like HashiCorp Vault.
+
+7-) Secure  etcd  store
+    -->  Put etcd behind a firewall. and allow only api server  access it.
+    --> Encrypt etcd data.
+
+8-) Automated Backup & store
+    --> Regularly backs up data
+    --> Stores backup safely.
+    --> INVESTIGATE K10 TOOLS FOR BACKUP YOUR DATA
+
+9-) Configure Security Policies
+    --> Her deploy edilen uygulamayı bir k8s admin olarak kontrol edemezsin bunun için deploylarda security policileri tanımlamalısın.
+
+10-) Disaster Recovery
+    --> K10 Automated Disaster Recoverysi var. ARAŞTIR.
